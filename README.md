@@ -15,11 +15,11 @@
 
 ## API
 
-Само HTTP API доступно на URL https://fft.ddne.ru/. Для того, чтобы получить разложение своего .wav файла (не больше 4 мб) на частоты, необходимо отправить POST запрос на указанный выше URL.
+Само HTTP API доступно на URL https://api.ddne.ru/fft. Для того, чтобы получить разложение своего .wav файла (не больше 4 мб) на частоты, необходимо отправить POST запрос на указанный выше URL.
 
 ```bash
 # Пример c cURL. "file" - обязательно.
-curl -X POST -F "file=@sample.wav" https://fft.ddne.ru/
+curl -X POST -F "file=@sample.wav" https://api.ddne.ru/fft
 ```
 
 После этого, Вы должны получить такой в ответ 202 и JSON такого формата:
@@ -30,6 +30,6 @@ curl -X POST -F "file=@sample.wav" https://fft.ddne.ru/
 
 Чтобы получить результат по своей задаче, Вам нужно сделать GET запрос на URL
 
-https://fft.ddne.ru/(task-uuid)
+https://api.ddne.ru/fft/(task-uuid)
 
 Между запросами должен быть тайм-аут минимум в 5 секунд!
