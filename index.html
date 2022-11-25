@@ -1,106 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Преобразование Фурье</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="shortcut icon" type="image/ico" href="/assets/favicon.0e726a38.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet">
+    <title>Фурье</title>
+    <script type="module" crossorigin src="/assets/index.569a19ff.js"></script>
+    <link rel="stylesheet" href="/assets/index.1e8d272d.css">
+  </head>
+  <body>
+    <noscript>Сайт не работает без Javascript.</noscript>
+    <div id="root"></div>
 
-    <link rel="stylesheet" href="index.css" />
-</head>
-<body>
-
-    <h1 class="h-center">Преобразование Фурье</h1>
-    <hr class="h-full-width" />
-
-    <form id="form" action="" method="POST" class="h-center">
-        <label for="file">Выберите .wav файл</label>
-        <input type="file" id="file" name="file">
-
-        <button id="submit">Разложить на частоты</button>
-    </form>
-
-    <img src="" alt="График будет здесь" class="h-center" id="graph" />
-
-    <script type="text/javascript">
-        const postUrl = "http://api.ddne.ru/fft";
-
-        window.addEventListener("load", (event) => {
-            console.debug("Registering event listeners");
-
-            let form = document.getElementById("form");
-            let submit = document.getElementById("submit");
-            let image = document.getElementById("graph");
-
-            let task_id;
-            let fetchResult;
-
-            submit.addEventListener("click", (event) => {
-                event.preventDefault();
-
-                console.debug("Performing request to FFT API");
-                let data = new FormData(form);
-
-                console.debug("Retrieving form data");
-                console.table(data);
-
-                let httpRequest = new XMLHttpRequest();
-                httpRequest.open("POST", postUrl, true);
-                httpRequest.addEventListener("readystatechange", event => {
-
-                    if (httpRequest.readyState == 4) {
-
-                        console.debug("Request completed");
-                        if (httpRequest.status == 200 || httpRequest.status == 202) {
-
-                            task_id = JSON.parse(httpRequest.responseText).task_id;
-                            console.debug(`Awaiting task with ID "${task_id}"`);
-                            fetchResult = setTimeout(() => {
-                                
-                                console.debug("Trying to fetch result");
-                                var resultRequest = new XMLHttpRequest();
-                                resultRequest.open("GET", `${postUrl}/${task_id}`, true);
-                                resultRequest.addEventListener("readystatechange", () => {
-
-                                    if (resultRequest.readyState == 4) {
-
-                                        if (resultRequest.status == 200) {
-
-                                            var resultJson = JSON.parse(resultRequest.responseText);
-                                            var result = resultJson.result;
-
-                                            if (result != null) {
-
-                                                console.debug("Fetched result");
-                                                clearTimeout(fetchResult);
-
-                                                console.table(result);
-
-                                                graph.src = `data:image/png;base64,${result.graph}`;
-
-                                            }
-
-                                        }
-
-                                    }
-
-                                });
-
-                                resultRequest.send();
-
-                            }, 5000);
-
-                        }
-
-                    }
-
-                });
-
-                httpRequest.send(data);
-
-            });
-        });
-    </script>
     
-</body>
+  </body>
 </html>
